@@ -53,3 +53,13 @@ Record category :=
       ∀ {a b c d} {f : arrow a b} {g : arrow b c} {h : arrow c d},
         arrow_equiv (compose h (compose g f)) (compose (compose h g) f);
   }.
+
+Record isomorphism {cat a b} (from : (arrow cat) a b) :=
+  { to : (arrow cat) b a;
+    comm_from : (arrow_equiv cat)
+                  ((compose cat) to from)
+                  (identity (a := a) cat);
+    comm_to : (arrow_equiv cat)
+                ((compose cat) from to)
+                (identity (a := b) cat);
+  }.
