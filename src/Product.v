@@ -31,13 +31,11 @@ Record product (data : product_data) :=
     property o := ∀ i, a o (comp i);
     proj : property op;
     commutes {o} (γ : property o) f := ∀ i,
-        (arrow_equiv c)
-          (γ i)
-          ((compose c) (proj i) f);
+        γ i = (compose c) (proj i) f;
 
     morphism_product : ∀ {o}, property o → a o op;
     morphism_product_commutes : ∀ {o γ},
         commutes o γ (morphism_product γ);
     morphism_product_unique : ∀ {o γ f},
-        commutes o γ f → (arrow_equiv c) f (morphism_product γ);
+        commutes o γ f → f = morphism_product γ;
   }.

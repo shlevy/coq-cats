@@ -1,5 +1,4 @@
 -R src CoqCats
-src/Relation.v
 src/Category.v
 src/Gallina.v
 src/Product.v
