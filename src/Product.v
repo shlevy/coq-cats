@@ -9,30 +9,29 @@ Set Polymorphic Inductive Cumulativity.
 
 (** * Categorical products.
 
-    First, the data related by the claim that a categorical product
-    exits:
+    I define products of an arbitrarily indexed set of objects. To
+    recover the familiar binary product, set idx to 2.
  *)
-Record product_data :=
-  { cat : category;
-    (** To recover the familiar binary product, set idx := 2. *)
-    idx : Type;
-    object_product : cat;
-    components : idx → cat;
-  }.
-
-(** Now, what does it mean to say that the data do exhibit a product?
- *)
-Record product (data : product_data) :=
-  { c := cat data;
-    comp := components data;
-    op := object_product data;
-
-    property o := ∀ i, o ⇝ (comp i);
-    proj : property op;
-    commutes {o} (γ : property o) f := ∀ i,
-        γ i = (proj i) ∘ f;
-
-    morphism_product : ∀ {o}, property o → o ⇝ op;
+Record product {cat : category} {idx}
+       (object_product : cat) (components : idx → cat) :=
+  { (** The property we care about: An arrow to each component. *)
+    property o := ∀ i, o ⇝ (components i);
+    (** The projections from our object product. *)
+    π : property object_product;
+    (** Any object with our property has an arrow to our distingiushed
+        object prodcut. *)
+    morphism_product : ∀ {o}, property o → o ⇝ object_product;
+    (** We now have an indexed set of diagrams: Given an arbitrary
+        object satisfying our property, we have an arrow from it to
+        our object product and for each i, we have an arrow from
+        our object product to the relevant component and an arrow from
+        the arbitrary object to the relevant component. Abstracting
+        away the distingiushed morphism product and replacing it with
+        an arbitrary arrow f from the arbitrary object to our object
+        product, we say f commutes with this set of diagrams when each
+        diagram commutes in the obvious way.
+     *)
+    commutes o (γ : property o) f := ∀ i, γ i = π i ∘ f;
     morphism_product_commutes : ∀ {o γ},
         commutes o γ (morphism_product γ);
     morphism_product_unique : ∀ {o γ f},
