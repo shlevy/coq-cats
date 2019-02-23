@@ -19,16 +19,16 @@ Record category :=
 
     arrow : object → object → Type;
 
-    identity : ∀ {a}, arrow a a;
-    (* TODO 1_a notation for identity? *)
+    identity : ∀ {a}, arrow a a
+    where "1" := identity;
 
     compose : ∀ {a b c}, arrow b c → arrow a b → arrow a c
     where "g ∘ f" := (compose g f);
 
     right_identity : ∀ {a b} {f : arrow a b},
-        f ∘ identity = f;
+        f ∘ 1 = f;
     left_identity : ∀ {a b} {f : arrow a b},
-        identity ∘ f = f;
+        1 ∘ f = f;
 
     compose_assoc :
       ∀ {a b c d} {f : arrow a b} {g : arrow b c} {h : arrow c d},
@@ -37,10 +37,12 @@ Record category :=
 
 Notation "g ∘ f" := (compose _ g f) : cat_scope.
 
+Notation "1" := (identity _) : cat_scope.
+
 Open Scope cat_scope.
 
 Record isomorphism {cat a b} (from : (arrow cat) a b) :=
   { to : (arrow cat) b a;
-    comm_from : to ∘ from = identity _;
-    comm_to : from ∘ to = identity _;
+    comm_from : to ∘ from = 1;
+    comm_to : from ∘ to = 1;
   }.
