@@ -43,11 +43,13 @@ Notation "1" := (identity _) : cat_scope.
 
 Notation "a ⇝ b" := (arrow _ a b) : cat_scope.
 
+Coercion object : category >-> Sortclass.
+
 Delimit Scope cat_scope with cat.
 
 Open Scope cat_scope.
 
-Record isomorphism {cat} {a b : object cat} (from : a ⇝ b) :=
+Record isomorphism {cat : category} {a b : cat} (from : a ⇝ b) :=
   { to : b ⇝ a;
     comm_from : to ∘ from = 1;
     comm_to : from ∘ to = 1;

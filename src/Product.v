@@ -11,13 +11,13 @@ Set Polymorphic Inductive Cumulativity.
 
     First, the data related by the claim that a categorical product
     exits:
-*)
+ *)
 Record product_data :=
   { cat : category;
     (** To recover the familiar binary product, set idx := 2. *)
     idx : Type;
-    object_product : object cat;
-    components : idx → object cat;
+    object_product : cat;
+    components : idx → cat;
   }.
 
 (** Now, what does it mean to say that the data do exhibit a product?
