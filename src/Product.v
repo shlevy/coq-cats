@@ -1,7 +1,7 @@
 (* begin hide *)
 Require Import Unicode.Utf8.
-Require Import Coq.Program.Basics.
 Require Import CoqCats.Category.
+Require Import CoqCats.PolyPrelude.
 
 Set Universe Polymorphism.
 Set Polymorphic Inductive Cumulativity.
@@ -37,3 +37,33 @@ Record product {cat : category} {idx}
     morphism_product_unique : ∀ {o γ f},
         commutes o γ f → f = morphism_product γ;
   }.
+
+Arguments morphism_product [cat] [idx] [object_product] [components] _ [o].
+Arguments π [cat] [idx] [object_product] [components].
+Arguments commutes [cat] [idx] [object_product] [components].
+Arguments morphism_product_unique [cat] [idx] [object_product] [components] _ [o] [γ] [f].
+
+Section product.
+  Variable cat : category.
+  Variable idx : Type.
+  Variable op : cat.
+  Variable comp : idx → cat.
+  Variable prod : product op comp.
+
+  (* In prose:
+     Lemma: The identity commutes
+     Proof: For each i, it's given by the fact that 1 is a right
+     identity of ∘.
+     Theorem: The identity is the morphism product from the object
+     product to itself.
+     Proof: The morphism product uniquely commutes, and the identity
+     commutes.
+
+     TODO Figure out how tactics work.
+   *)
+  Definition identity_morphism_product :
+    prod.(morphism_product) prod.(π) = 1 :=
+    let
+      id_commutes i := eq_sym cat.(right_identity)
+    in eq_sym (prod.(morphism_product_unique) id_commutes).
+End product.
