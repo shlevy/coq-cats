@@ -2,6 +2,7 @@
 Require Import Unicode.Utf8.
 Require Import Coq.Program.Basics.
 Require Import CoqCats.Category.
+Require Import CoqCats.PolyPrelude.
 
 Set Universe Polymorphism.
 Set Polymorphic Inductive Cumulativity.

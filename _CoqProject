@@ -1,4 +1,8 @@
 -R src CoqCats
+src/PolyPrelude.v
 src/Category.v
 src/Gallina.v
 src/Product.v
+
+-arg -w -arg +default
+-arg -w -arg -notation-overridden
