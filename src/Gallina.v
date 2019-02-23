@@ -1,6 +1,5 @@
 (* begin hide *)
 Require Import Unicode.Utf8.
-Require Import Coq.Program.Basics.
 Require Import CoqCats.Category.
 Require Import CoqCats.PolyPrelude.
 
@@ -10,7 +9,6 @@ Set Polymorphic Inductive Cumulativity.
 
 (** * The category of non-dependent Gallina functions.
  *)
-Local Open Scope program_scope.
 Definition Gallina : category :=
   {| object := Type;
 
@@ -18,7 +16,7 @@ Definition Gallina : category :=
 
      identity _ x := x;
 
-     compose _ _ _ g f := g ∘ f;
+     compose _ _ _ g f x := g (f x);
 
      right_identity _ _ _ := eq_refl;
      left_identity _ _ _ := eq_refl;
