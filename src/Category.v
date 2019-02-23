@@ -14,24 +14,26 @@ Set Polymorphic Inductive Cumulativity.
     dealing with concrete categories we can pretend the non-standard
     forms don't exist.
  *)
+Reserved Notation "a ⇝ b" (at level 99, b at level 200, right associativity).
 Record category :=
   { object : Type;
 
-    arrow : object → object → Type;
+    arrow : object → object → Type
+    where "a ⇝ b" := (arrow a b);
 
-    identity : ∀ {a}, arrow a a
+    identity : ∀ {a}, a ⇝ a
     where "1" := identity;
 
-    compose : ∀ {a b c}, arrow b c → arrow a b → arrow a c
+    compose : ∀ {a b c}, (b ⇝ c) → (a ⇝ b) → (a ⇝ c)
     where "g ∘ f" := (compose g f);
 
-    right_identity : ∀ {a b} {f : arrow a b},
+    right_identity : ∀ {a b} {f : a ⇝ b},
         f ∘ 1 = f;
-    left_identity : ∀ {a b} {f : arrow a b},
+    left_identity : ∀ {a b} {f : a ⇝ b},
         1 ∘ f = f;
 
     compose_assoc :
-      ∀ {a b c d} {f : arrow a b} {g : arrow b c} {h : arrow c d},
+      ∀ {a b c d} {f : a ⇝ b} {g : b ⇝ c} {h : c ⇝ d},
         h ∘ g ∘ f = h ∘ (g ∘ f);
   }.
 
@@ -39,10 +41,14 @@ Notation "g ∘ f" := (compose _ g f) : cat_scope.
 
 Notation "1" := (identity _) : cat_scope.
 
+Notation "a ⇝ b" := (arrow _ a b) : cat_scope.
+
+Delimit Scope cat_scope with cat.
+
 Open Scope cat_scope.
 
-Record isomorphism {cat a b} (from : (arrow cat) a b) :=
-  { to : (arrow cat) b a;
+Record isomorphism {cat} {a b : object cat} (from : a ⇝ b) :=
+  { to : b ⇝ a;
     comm_from : to ∘ from = 1;
     comm_to : from ∘ to = 1;
   }.

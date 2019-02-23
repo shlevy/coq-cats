@@ -25,15 +25,14 @@ Record product_data :=
 Record product (data : product_data) :=
   { c := cat data;
     comp := components data;
-    a := arrow c;
     op := object_product data;
 
-    property o := ∀ i, a o (comp i);
+    property o := ∀ i, o ⇝ (comp i);
     proj : property op;
     commutes {o} (γ : property o) f := ∀ i,
         γ i = (proj i) ∘ f;
 
-    morphism_product : ∀ {o}, property o → a o op;
+    morphism_product : ∀ {o}, property o → o ⇝ op;
     morphism_product_commutes : ∀ {o γ},
         commutes o γ (morphism_product γ);
     morphism_product_unique : ∀ {o γ f},
