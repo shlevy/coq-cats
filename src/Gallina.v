@@ -9,14 +9,15 @@ Set Polymorphic Inductive Cumulativity.
 
 (** * The category of non-dependent Gallina functions.
  *)
+Local Open Scope program_scope.
 Definition Gallina : category :=
   {| object := Type;
 
      arrow A B := A → B;
 
-     identity {_} x := x;
+     identity _ x := x;
 
-     compose {_ _ _} g f x := g (f x);
+     compose _ _ _ g f := g ∘ f;
 
      right_identity _ _ _ := eq_refl;
      left_identity _ _ _ := eq_refl;
