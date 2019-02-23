@@ -14,7 +14,6 @@ Set Polymorphic Inductive Cumulativity.
     dealing with concrete categories we can pretend the non-standard
     forms don't exist.
  *)
-
 Record category :=
   { object : Type;
 
@@ -23,21 +22,25 @@ Record category :=
     identity : ∀ {a}, arrow a a;
     (* TODO 1_a notation for identity? *)
 
-    compose : ∀ {a b c}, arrow b c → arrow a b → arrow a c;
-    (* TODO ∘ notation for composition? *)
+    compose : ∀ {a b c}, arrow b c → arrow a b → arrow a c
+    where "g ∘ f" := (compose g f);
 
     right_identity : ∀ {a b} {f : arrow a b},
-        (compose f identity) = f;
+        f ∘ identity = f;
     left_identity : ∀ {a b} {f : arrow a b},
-        (compose identity f) = f;
+        identity ∘ f = f;
 
     compose_assoc :
       ∀ {a b c d} {f : arrow a b} {g : arrow b c} {h : arrow c d},
-        (compose h (compose g f)) = (compose (compose h g) f);
+        h ∘ g ∘ f = h ∘ (g ∘ f);
   }.
+
+Notation "g ∘ f" := (compose _ g f) : cat_scope.
+
+Open Scope cat_scope.
 
 Record isomorphism {cat a b} (from : (arrow cat) a b) :=
   { to : (arrow cat) b a;
-    comm_from : ((compose cat) to from) = identity _;
-    comm_to : ((compose cat) from to) = identity _;
+    comm_from : to ∘ from = identity _;
+    comm_to : from ∘ to = identity _;
   }.
