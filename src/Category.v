@@ -55,3 +55,24 @@ Record isomorphism {cat : category} {a b : cat} (from : a ⇝ b) :=
     comm_from : to ∘ from = 1;
     comm_to : from ∘ to = 1;
   }.
+
+(** ** Equality properties.
+
+    We define here some high-level properties equality gives us with
+    respect to the components of a category, so that we can more
+    easily switch back to an arbitrary equivalence relation in the
+    future if we want to (assuming everything that operates over
+    abstract categories only uses these properties rather than matching
+    on the equality proof directly).
+ *)
+Section equality.
+  Variable cat : category.
+  Variable a b c : cat.
+  Variable f : a ⇝ b.
+  Variable g g' : b ⇝ c.
+  Definition compose_transport_left (p : g = g') : g ∘ f = g' ∘ f :=
+    match p with
+      eq_refl => eq_refl
+    end.
+End equality.
+Arguments compose_transport_left {cat} {a} {b} {c} {f} {g} {g'}.
